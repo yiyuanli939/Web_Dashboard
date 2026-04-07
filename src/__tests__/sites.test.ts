@@ -7,12 +7,15 @@ describe("sites config", () => {
 
   it("every site has required fields", () => {
     for (const site of sites) {
-      expect(site.name).toBeTruthy();
+      expect(site.name.en).toBeTruthy();
+      expect(site.name.cn).toBeTruthy();
       expect(site.url).toBeTruthy();
-      expect(site.description).toBeTruthy();
+      expect(site.description.en).toBeTruthy();
+      expect(site.description.cn).toBeTruthy();
       expect(Array.isArray(site.tags)).toBe(true);
       expect(typeof site.vibecoded).toBe("boolean");
       expect(site.image).toBeTruthy();
+      expect(site.lastUpdated).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     }
   });
 
@@ -28,8 +31,10 @@ describe("sites config", () => {
   });
 
   it("has no duplicate names", () => {
-    const names = sites.map((s) => s.name);
-    expect(new Set(names).size).toBe(names.length);
+    const namesEn = sites.map((s) => s.name.en);
+    const namesCn = sites.map((s) => s.name.cn);
+    expect(new Set(namesEn).size).toBe(namesEn.length);
+    expect(new Set(namesCn).size).toBe(namesCn.length);
   });
 
   it("includes the personal website", () => {
